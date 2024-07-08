@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tree Visualizer
+
+A simple Next.js application that allows users to input a tree in level order and visualize the tree structure. Users can also perform different tree traversals and see the traversal animations.
+
+## Features
+
+- Input tree data in level order format.
+- Visualize the tree structure.
+- Perform and animate different tree traversals (Inorder, PreOrder, PostOrder, Level Order).
+- Responsive design with animated transitions.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (version 14.x or later)
+- npm or yarn
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   git clone https://github.com/ASWINKMANOJ/Binarytree-Traversal-Visualization.git
+   cd Binarytree-Traversal-Visualization
+   ```
 
-## Learn More
+2. Install dependencies:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   or
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```bash
+   yarn install
+   ```
 
-## Deploy on Vercel
+3. Start the development server:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   or
+
+   ```bash
+   yarn dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:3000`.
+
+## Usage
+
+### Input the Tree
+
+1. Enter the tree nodes in level order format in the input field (e.g., `7,5,9,2,6,8,11`).
+2. Click the "Submit" button to visualize the tree.
+
+### Tree Traversals
+
+- **Inorder Traversal**: Click the "Inorder Traversal" button to perform an inorder traversal.
+- **PreOrder Traversal**: Click the "PreOrder Traversal" button to perform a preorder traversal.
+- **PostOrder Traversal**: Click the "PostOrder Traversal" button to perform a postorder traversal.
+- **Level Traversal**: Click the "Level Traversal" button to perform a level order traversal.
+
+### Create a New Tree
+
+- Click the "Create new Tree" button to input a new tree.
+
+## Components
+
+### Home Component
+
+- Handles the input and submission of tree data.
+- Displays an alert if the input is empty.
+
+### TreePage Component
+
+- Visualizes the tree structure using `react-d3-tree`.
+- Provides buttons to perform different tree traversals.
+- Animates the traversal process using `framer-motion`.
