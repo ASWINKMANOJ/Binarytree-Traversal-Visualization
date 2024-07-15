@@ -70,6 +70,12 @@ export default function Home() {
     setAlert(false);
   }
 
+  function handleEnter(e) {
+    if (e.key == "Enter") {
+      handleSubmit();
+    }
+  }
+
   return (
     <div className="h-screen py-2 px-2 w-full flex flex-col items-center justify-center bg-white relative">
       <div className="h-3/4 w-2/5 flex items-center justify-center flex-col">
@@ -82,6 +88,7 @@ export default function Home() {
           onChange={handleInput}
           placeholder="7,5,9,2,6,8,11..."
           className="text-xl my-4"
+          onKeyPress={handleEnter}
         />
         <Button
           className="my-3"

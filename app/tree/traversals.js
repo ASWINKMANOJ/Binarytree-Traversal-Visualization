@@ -28,8 +28,7 @@ function postOrderTraversal(node, result = []) {
   return result;
 }
 
-function levelOrderTraversal(node) {
-  let result = [];
+function levelOrderTraversal(node, result = []) {
   if (!node) return result;
 
   let queue = [node];

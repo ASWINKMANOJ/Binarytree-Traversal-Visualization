@@ -7,10 +7,13 @@ import {
   postOrderTraversal,
   levelOrderTraversal,
 } from "./traversals";
+
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { motion, animate, AnimatePresence } from "framer-motion";
 export default function TreePage() {
   const router = useRouter();
+  const [running, setRunning] = useState(false);
   const [chart, setChart] = useState(null);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const [traversedNodes, setTraversedNodes] = useState([]);
@@ -31,36 +34,48 @@ export default function TreePage() {
   }, []);
 
   const handleTraversalIn = async () => {
-    setTraversedNodes([]);
-    const result = inorderTraversal(chart);
-    for (let i = 0; i < result.length; i++) {
-      setHighlightedNode(result[i]);
-      setTraversedNodes((prev) => [...prev, result[i]]);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (!running) {
+      setTraversedNodes([]);
+      const result = inorderTraversal(chart);
+      setRunning(true);
+      for (let i = 0; i < result.length; i++) {
+        setHighlightedNode(result[i]);
+        setTraversedNodes((prev) => [...prev, result[i]]);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      setHighlightedNode(null);
+      setRunning(false);
     }
-    setHighlightedNode(null);
   };
 
   const handleTraversalPre = async () => {
-    setTraversedNodes([]);
-    const result = preOrderTraversal(chart);
-    for (let i = 0; i < result.length; i++) {
-      setHighlightedNode(result[i]);
-      setTraversedNodes((prev) => [...prev, result[i]]);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (!running) {
+      setTraversedNodes([]);
+      setRunning(true);
+      const result = preOrderTraversal(chart);
+      for (let i = 0; i < result.length; i++) {
+        setHighlightedNode(result[i]);
+        setTraversedNodes((prev) => [...prev, result[i]]);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      setHighlightedNode(null);
+      setRunning(false);
     }
-    setHighlightedNode(null);
   };
 
   const handleTraversalPost = async () => {
-    setTraversedNodes([]);
-    const result = postOrderTraversal(chart);
-    for (let i = 0; i < result.length; i++) {
-      setHighlightedNode(result[i]);
-      setTraversedNodes((prev) => [...prev, result[i]]);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (!running) {
+      setTraversedNodes([]);
+      setRunning(true);
+      const result = postOrderTraversal(chart);
+      for (let i = 0; i < result.length; i++) {
+        setHighlightedNode(result[i]);
+        setTraversedNodes((prev) => [...prev, result[i]]);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      setHighlightedNode(null);
+      setRunning(false);
     }
-    setHighlightedNode(null);
   };
 
   const handleTraversalLevel = async () => {
@@ -79,9 +94,9 @@ export default function TreePage() {
       <circle
         r="15"
         fill={nodeDatum.name === highlightedNode ? "yellow" : "white"}
-        className="text-center transition-colors duration-300 ease-in-out"
+        className="text-center transition-all duration-200 ease-in-out"
       ></circle>
-      <text fill="white" strokeWidth="1" x="-5" dy=".35em">
+      <text fill="black" x="-5" dy=".35em">
         {nodeDatum.name}
       </text>
     </g>
@@ -90,38 +105,75 @@ export default function TreePage() {
   return (
     <div className="h-full py-4 px-2 w-full flex flex-col items-center justify-center bg-white">
       <div className="mb-4">
-        <button
+        <motion.button
           onClick={handleTraversalIn}
-          className="px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          className={cn(
+            running
+              ? "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2 cursor-not-allowed"
+              : "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          )}
+          whileHover={{
+            scale: 1.1,
+          }}
         >
           Inorder Traversal
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={handleTraversalPre}
-          className="px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          className={cn(
+            running
+              ? "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2 cursor-not-allowed"
+              : "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          )}
+          whileHover={{
+            scale: 1.1,
+          }}
         >
           PreOrder Traversal
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={handleTraversalPost}
-          className="px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          className={cn(
+            running
+              ? "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2 cursor-not-allowed"
+              : "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          )}
+          whileHover={{
+            scale: 1.1,
+          }}
         >
           PostOrder Traversal
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={handleTraversalLevel}
-          className="px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          className={cn(
+            running
+              ? "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2 cursor-not-allowed"
+              : "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          )}
+          whileHover={{
+            scale: 1.1,
+          }}
         >
           Level Traversal
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={() => {
-            router.push("/");
+            if (!running) {
+              router.push("/");
+            }
           }}
-          className="px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          className={cn(
+            running
+              ? "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2 cursor-not-allowed"
+              : "px-4 py-2 bg-blue-500 text-white rounded mx-2 my-2"
+          )}
+          whileHover={{
+            scale: 1.1,
+          }}
         >
           Create new Tree
-        </button>
+        </motion.button>
       </div>
       <div
         id="treeWrapper"
@@ -134,12 +186,13 @@ export default function TreePage() {
             translate={translate}
             nodeSize={{ x: 100, y: 100 }}
             renderCustomNodeElement={renderCustomNodeElement}
+            className="transition-all duration-200 ease-in-out"
           />
         )}
       </div>
       <div className="mt-4 p-4 border rounded w-1/2 text-center text-black mb-1">
         Traversed Node:{" "}
-        <div className="flex items-center justify-center overflow-hidden">
+        <div className="flex items-center justify-center overflow-x-scroll pl-8 overflow-y-hidden">
           <AnimatePresence>
             {traversedNodes.map((nodes, i) => (
               <motion.div
@@ -148,7 +201,7 @@ export default function TreePage() {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0, opacity: 0, y: 100 }}
                 layout
-                className="py-1 px-2 mx-1 bg-blue-500 rounded-md"
+                className="py-1 px-2 ml-1 bg-blue-500 rounded-md"
               >
                 {nodes}
               </motion.div>
