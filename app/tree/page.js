@@ -79,16 +79,18 @@ export default function TreePage() {
   };
 
   const handleTraversalLevel = async () => {
-    setTraversedNodes([]);
-    const result = levelOrderTraversal(chart);
-    setRunning(true);
-    for (let i = 0; i < result.length; i++) {
-      setHighlightedNode(result[i]);
-      setTraversedNodes((prev) => [...prev, result[i]]);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (!running) {
+      setTraversedNodes([]);
+      const result = levelOrderTraversal(chart);
+      setRunning(true);
+      for (let i = 0; i < result.length; i++) {
+        setHighlightedNode(result[i]);
+        setTraversedNodes((prev) => [...prev, result[i]]);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      setHighlightedNode(null);
+      setRunning(false);
     }
-    setHighlightedNode(null);
-    setRunning(false);
   };
 
   const renderCustomNodeElement = ({ nodeDatum }) => (
